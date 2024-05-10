@@ -4,4 +4,4 @@ from polls.models import Courses
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model=Courses
-        fields=('CourseCode','CourseID','CourseProf')
+        fields=('__all__')

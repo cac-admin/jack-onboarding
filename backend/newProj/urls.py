@@ -20,10 +20,12 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from polls.views import CourseViewSet
 from users.views import UserViewSet
+from reviews.views import ReviewViewSet
 
 router = DefaultRouter()
 router.register(r'courses',CourseViewSet)
 router.register(r'users',UserViewSet)
+router.register(r'reviews',ReviewViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),

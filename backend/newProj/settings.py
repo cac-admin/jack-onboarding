@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'polls.apps.PollsConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'reviews.apps.ReviewsConfig',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

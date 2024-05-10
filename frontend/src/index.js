@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom/client';
 import Home from './Home';
 import Reviews from './Reviews';
 import Login from './Login';
+import WriteReview from './WriteReview';
 import './index.css';
 
 //import App from './App';
 // import reportWebVitals from './reportWebVitals';
+
+
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -17,6 +20,7 @@ export default function App(){
           <Route index path='/' element={<Home/>}/>
           <Route path='/reviews' element={<Reviews/>}/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/writereview' element={<WriteReview/>}/>
         </Routes>
       </BrowserRouter>
   )
