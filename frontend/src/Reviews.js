@@ -6,13 +6,43 @@ export default class DisplayReviews extends React.Component{
 
   state = {
     courses: [],
+    allCourses: [],
     reviews : [],
     allReviews: [],
     header: '',
     body: '',
     clicked: false,
     avg: 0,
+    filterLevel: 0,
+    filterCode: '',
   };
+
+  filterCourses = (course) => {
+    console.log(this.state.courses)
+    return((this.state.filterLevel === 0 || course.CourseLevel === this.state.filterLevel) && (this.state.filterCode === '' || course.CourseProgram === this.state.filterCode));
+  }
+
+    // if (this.state.filterCode !== ''){
+    //   this.setState({courses : this.state.courses.map(
+    //     course => {
+    //       if (course.CourseProgram === this.state.filterCode) {
+    //         console.log(course.CourseProgram, this.state.filterCode)
+    //         return (course)
+    //       }
+    //     }  
+    //   )});
+    // }
+    // if (this.state.filterLevel !== 0){
+    //   this.setState({courses : this.state.courses.map(
+    //     course => {
+    //       if (course.CourseLevel === this.state.filterLevel) {
+    //         console.log(course.CourseLevel, this.state.filterLevel)
+    //         return (course)
+    //       }
+    //     }  
+    //   )});
+    // }
+    // console.log(this.state.courses)
 
 
   changeDisplay (code, prof, desc){
@@ -31,15 +61,12 @@ export default class DisplayReviews extends React.Component{
     )});
   }
 
-
-
-
-
   componentDidMount(){
     axios.get('http://localhost:8000/api/courses')
       .then(res => {
         const courses = res.data;
         this.setState({ courses });
+        this.setState({allCourses : courses})
       });
     axios.get('http://localhost:8000/api/reviews')
       .then(res => {
@@ -52,17 +79,33 @@ export default class DisplayReviews extends React.Component{
     if (this.state.clicked){
       return (<h3>Reviews</h3>)
     }
-    return(<h3> </h3>)
+    return(<h3/>)
   }
-
 
   render(){
       return(
-      <div>
+      <div className="thing">
         <h1>Rate that Course!</h1>
         <p>Welcome to the reviews section of rate that course! Click any of the below courses in order to see how students feel about it.</p>
-        {this.state.courses.map(courses => (
-          <button key={courses.CourseID} type="button" onClick={() => this.changeDisplay(courses.CourseCode, courses.CourseProf, courses.CourseDesc)} >{courses.CourseCode}</button>
+        <p>Select filters and click the button below to filter the shown courses.</p>
+
+        <select>
+          <option key="404" onClick={() => this.setState({ filterLevel : 0})}>Course Level</option>
+          <option key="100" onClick={() => this.setState({ filterLevel : 100})}>100</option>
+          <option key="200" onClick={() => this.setState({ filterLevel : 200})}>200</option>
+          <option key="300" onClick={() => this.setState({ filterLevel : 300})}>300</option>
+          <option key="400" onClick={() => this.setState({ filterLevel : 400})}>400</option>
+        </select>
+
+        <select name="course">
+          <option key="404" onClick={() => this.setState({ filterCode : ''})}>Course Program</option>
+          <option key="CISC" onClick={() => this.setState({ filterCode : "CISC"})}>CISC</option>
+          <option key="ELEC" onClick={() => this.setState({ filterCode : "ELEC"})}>ELEC</option>
+        </select>
+        <input type="submit" value="Filter" onClick={() => this.setState({courses : this.state.allCourses.filter(this.filterCourses)})}/>
+        <br/>
+        {this.state.courses.map(course => (
+          <button key={course.CourseID} type="button" onClick={() => this.changeDisplay(course.CourseCode, course.CourseProf, course.CourseDesc)} >{course.CourseCode}</button>
         ))}
         <br/><br/>
         <h3>

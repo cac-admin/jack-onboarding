@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 var loginSuccess = false;
+var signUpSuccess = true;
 
 export default function Login() {
     const [initUsername, setUsername] = useState('');
@@ -10,7 +11,11 @@ export default function Login() {
 
     const  clickLogin = (e) => {
         e.preventDefault()
-        if (initUsername.length === 0){
+        const loggedIn = localStorage.getItem('curUser');
+        if (loggedIn){
+            alert("A user is already logged in, please log out first.")
+        }
+        else if (initUsername.length === 0){
             alert("Please input a valid username");
         }
         else if (initPassword.length === 0){
@@ -18,7 +23,8 @@ export default function Login() {
         }
         else {
             axios.get('http://localhost:8000/api/users/')
-            .then(res => {const users = res.data;
+            .then(res => {
+                const users = res.data;
                 users.map(function (users) {
                     if (users.Username === initUsername && users.Password === initPassword) {
                         loginSuccess = true;
@@ -36,8 +42,9 @@ export default function Login() {
         }
     }
 
-    const  clickSignup = (e) => {
+    const clickSignup = (e) => {
         e.preventDefault()
+        signUpSuccess = true
         if (initUsername.length === 0){
             alert("Please input a valid username");
         }
@@ -45,11 +52,24 @@ export default function Login() {
             alert("Please input a valid password");
         }
         else{
-        axios.post('http://localhost:8000/api/users/',{Username : initUsername, Password : initPassword})
-        .then(function (response){alert(response)})
-        .catch(function (error) {alert(error)})
-        }
-    }
+            axios.get('http://localhost:8000/api/users/')
+            .then(res => {
+                const users = res.data;
+                users.map(function (users) {
+                    if (users.Username === initUsername) {
+                        signUpSuccess = false;
+                    }});
+                if (signUpSuccess){
+                    axios.post('http://localhost:8000/api/users/',{Username : initUsername, Password : initPassword})
+                    .then(function (response){alert(response)})
+                    .catch(function (error) {alert(error)})
+                } else {
+                    alert("Username is already taken"); 
+                    console.log("Sign-in failed"); 
+                }
+
+        })
+    }}
 
     const  clickLogout = (e) => {
         e.preventDefault()

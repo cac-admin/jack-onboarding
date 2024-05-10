@@ -7,3 +7,5 @@ class Courses(models.Model):
     CourseID = models.AutoField(primary_key=True)
     CourseProf = models.CharField(max_length=500)
     CourseDesc = models.CharField(max_length=500)   
+    CourseLevel = models.IntegerField()
+    CourseProgram = models.CharField(max_length=4)
