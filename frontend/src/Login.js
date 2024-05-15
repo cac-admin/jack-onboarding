@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import './styles.css'
 
 var loginSuccess = false;
 var signUpSuccess = true;
@@ -79,29 +80,29 @@ export default function Login() {
         alert("Logged out");
     }
     return(
-        <div> 
-            <h3>Login Page</h3>
-            <p>Enter your credentials to login or sign up.</p>
-            <form>
-            <label>
-                Username:
-                <input type="text" name="username" value={initUsername} onChange={x => setUsername(x.target.value)}/>
-            </label>
-            <br/>
-            <label>
-                Password:
-                <input type="text" name="password" value={initPassword} onChange={x => setPassword(x.target.value)}/>
-            </label>
-            <br/>
-            <input type="submit" value="Login" onClick={clickLogin}/><br/>
-            <input type="submit" value="Sign Up" onClick={clickSignup}/><br/><br/>
-            <input type="submit" value="Logout" onClick={clickLogout}/>
+        <div classname="wrapper-main"> 
+            <div className='topnav'>
+                <a href="/writereview">Write a Review</a>
+                <a href="/reviews">Read Reviews</a>
+                <a class="active" href="#login">Login/Signup</a>
+                <a href="/">Home</a>
+            </div>
+            <h3 className='header-login'>Login</h3>
+            <form className='login-form'>
+                <label>
+                    Username:
+                    <input type="text" name="username" placeholder="Enter username" value={initUsername} onChange={x => setUsername(x.target.value)}/>
+                </label>
+                <br/>
+                <label>
+                    Password:
+                    <input type="password" name="password" placeholder="Enter password" value={initPassword} onChange={x => setPassword(x.target.value)}/>
+                </label>
+                <br/>
+                <Button variant="contained" onClick={clickLogin}>Login</Button> <br/>
+                <Button variant="contained" onClick={clickSignup}>Sign Up</Button> <br/>
+                <p className='logout-text'>Already logged in? Click <input type='submit' value="here" onClick={clickLogout}/> to logout</p>
             </form>
-
-            <Link to="/">Return to the home page</Link>
-
-
-
         </div>
     )
 }

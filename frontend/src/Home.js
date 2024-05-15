@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import './styles.css'
 
 
 
@@ -15,14 +17,19 @@ const checkLogin = () => {
 
 export default function Home() {
     return(
+        <div className='wrapper-main'> 
+            <div className='topnav'>
+                <a href="/writereview">Write a Review</a>
+                <a href="/reviews">Read Reviews</a>
+                <a href="/login">Login/Signup</a>
+                <a class="active" href="#home">Home</a>
+            </div>
+            <h3 className='header-home'>Rate that Course</h3>
+            <p className='paragraph-home'>Welcome to rate that course!</p>
 
-        <div> 
-            <h3>Home Page</h3>
-            <p>Welcome to rate that course! Use the links below to navigate the website.</p>
-
-            <Link to="/login">Login/Signup</Link> <br/>
+            {/* <Link to="/login">Login/Signup</Link> <br/>
             <Link to="/reviews">Read reviews</Link> <br/>
-            <Link to="/writereview">Write reviews</Link>
+            <Link to="/writereview">Write reviews</Link> */}
 
             {checkLogin()}
 

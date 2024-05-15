@@ -15,47 +15,24 @@ export default class DisplayReviews extends React.Component{
     avg: 0,
     filterLevel: 0,
     filterCode: '',
+    dropdowns: [],
   };
 
   filterCourses = (course) => {
-    console.log(this.state.courses)
-    return((this.state.filterLevel === 0 || course.CourseLevel === this.state.filterLevel) && (this.state.filterCode === '' || course.CourseProgram === this.state.filterCode));
+    return((this.state.filterLevel === 0 || (course.CourseLevel > this.state.filterLevel - 1 && course.CourseLevel < this.state.filterLevel + 100)) && (this.state.filterCode === '' || course.CourseProgram === this.state.filterCode));
   }
 
-    // if (this.state.filterCode !== ''){
-    //   this.setState({courses : this.state.courses.map(
-    //     course => {
-    //       if (course.CourseProgram === this.state.filterCode) {
-    //         console.log(course.CourseProgram, this.state.filterCode)
-    //         return (course)
-    //       }
-    //     }  
-    //   )});
-    // }
-    // if (this.state.filterLevel !== 0){
-    //   this.setState({courses : this.state.courses.map(
-    //     course => {
-    //       if (course.CourseLevel === this.state.filterLevel) {
-    //         console.log(course.CourseLevel, this.state.filterLevel)
-    //         return (course)
-    //       }
-    //     }  
-    //   )});
-    // }
-    // console.log(this.state.courses)
-
-
-  changeDisplay (code, prof, desc){
+  changeDisplay (code, title, desc){
     const clicked = true;
     this.setState({ clicked });
-    const header = code;
+    const header = code + ": " +title;
     this.setState({ header });
-    const body = desc + ' This course is taught by: ' + prof + '.';
+    const body = desc;
     this.setState({ body });
     this.setState({reviews : this.state.allReviews.map(
       review => {
         if (review.ReviewCourse === code) {
-          return ((<div><p>{review.ReviewContent}</p><br/><p>Difficulty rating: {review.ReviewDifficulty} /5, Overall rating: {review.ReviewScore} /5.</p><br/><p>Review left by: {review.ReviewAuthor} on {review.ReviewDate}</p></div>))
+          return ((<div><p>{review.ReviewContent}</p><p>Difficulty rating: {review.ReviewDifficulty} /5, Overall rating: {review.ReviewScore} /5.</p><p>Review left by: {review.ReviewAuthor} on {review.ReviewDate}</p><br/></div>))
         }
       }  
     )});
@@ -65,8 +42,19 @@ export default class DisplayReviews extends React.Component{
     axios.get('http://localhost:8000/api/courses')
       .then(res => {
         const courses = res.data;
+        var codes = []
         this.setState({ courses });
         this.setState({allCourses : courses})
+        courses.map(course => {
+          var exists = codes.includes(course.CourseProgram);
+          if (!exists) {
+            codes.push(course.CourseProgram);
+          }
+        })
+        const temp = codes.map(code => {
+          return (<option key={code} onClick={() => this.setState({ filterCode : code})}>{code}</option>)
+        })
+        this.setState({dropdowns : temp})
       });
     axios.get('http://localhost:8000/api/reviews')
       .then(res => {
@@ -79,33 +67,40 @@ export default class DisplayReviews extends React.Component{
     if (this.state.clicked){
       return (<h3>Reviews</h3>)
     }
-    return(<h3/>)
   }
 
   render(){
       return(
-      <div className="thing">
-        <h1>Rate that Course!</h1>
-        <p>Welcome to the reviews section of rate that course! Click any of the below courses in order to see how students feel about it.</p>
-        <p>Select filters and click the button below to filter the shown courses.</p>
+      <div className="wrapper-main">
+        <div className='topnav'>
+          <a href="/writereview">Write a Review</a>
+          <a class="active" href="#reviews">Read Reviews</a>
+          <a href="/login">Login/Signup</a>
+          <a href="/">Home</a>
+        </div>
+        <h1 className="header-home">Read Reviews!</h1>
+        <p className='paragraph-home'>Welcome to the reviews section of rate that course! Click any of the below courses in order to see how students feel about it.</p>
+        <p className='paragraph-home'>Select filters and click the button below to filter the shown courses.</p>
 
-        <select>
-          <option key="404" onClick={() => this.setState({ filterLevel : 0})}>Course Level</option>
-          <option key="100" onClick={() => this.setState({ filterLevel : 100})}>100</option>
-          <option key="200" onClick={() => this.setState({ filterLevel : 200})}>200</option>
-          <option key="300" onClick={() => this.setState({ filterLevel : 300})}>300</option>
-          <option key="400" onClick={() => this.setState({ filterLevel : 400})}>400</option>
-        </select>
+        <div>
+          <select className='filter-courses'>
+            <option key="404" onClick={() => this.setState({ filterLevel : 0})}>Course Level</option>
+            <option key="100" onClick={() => this.setState({ filterLevel : 100})}>100</option>
+            <option key="200" onClick={() => this.setState({ filterLevel : 200})}>200</option>
+            <option key="300" onClick={() => this.setState({ filterLevel : 300})}>300</option>
+            <option key="400" onClick={() => this.setState({ filterLevel : 400})}>400</option>
+            <option key="500" onClick={() => this.setState({ filterLevel : 500})}>500</option>
+          </select>
 
-        <select name="course">
-          <option key="404" onClick={() => this.setState({ filterCode : ''})}>Course Program</option>
-          <option key="CISC" onClick={() => this.setState({ filterCode : "CISC"})}>CISC</option>
-          <option key="ELEC" onClick={() => this.setState({ filterCode : "ELEC"})}>ELEC</option>
-        </select>
-        <input type="submit" value="Filter" onClick={() => this.setState({courses : this.state.allCourses.filter(this.filterCourses)})}/>
+          <select name="course">
+            <option key="404" onClick={() => this.setState({ filterCode : ''})}>Course Program</option>
+            {this.state.dropdowns}
+          </select>
+          <input type="submit" value="Filter" onClick={() => this.setState({courses : this.state.allCourses.filter(this.filterCourses)})}/>
+        </div>
         <br/>
         {this.state.courses.map(course => (
-          <button key={course.CourseID} type="button" onClick={() => this.changeDisplay(course.CourseCode, course.CourseProf, course.CourseDesc)} >{course.CourseCode}</button>
+          <button key={course.CourseID} type="button" onClick={() => this.changeDisplay(course.CourseCode, course.courseTitle, course.CourseDesc)} >{course.CourseCode}</button>
         ))}
         <br/><br/>
         <h3>

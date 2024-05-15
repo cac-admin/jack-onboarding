@@ -1,0 +1,102 @@
+.wrapper-main {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+.header-home {
+  text-align: center;
+  align-self: center;
+  color: rgb(0, 0, 0);
+  font-size: 40px;
+}
+
+.filter-courses {
+  align-self: center;
+}
+
+.header-login {
+  text-align: center;
+  align-self: center;
+  color: rgb(0, 0, 0);
+  font-size: 40px;
+}
+
+.paragraph-home {
+    text-align: center;
+    align-self: center;
+    color: rgb(0, 0, 0);
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: rgb(50, 50, 50);
+    overflow: hidden;
+  }
+  
+  /* Style the links inside the navigation bar */
+  .topnav a {
+    float: right;
+    color: rgb(255,255,255);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  /* Change the color of links on hover */
+  .topnav a:hover {
+    background-color: rgb(100, 100, 100);
+    color: white;
+  }
+  
+  /* Add a color to the active/current link */
+  .topnav a.active {
+    background-color: rgb(75, 75, 75);
+    color: white;
+  }
+
+.login-form {
+  box-sizing: border-box;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: hsl(0, 0%, 100%);
+  border: 4px solid hsl(0, 0%, 90%);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  text-align: center;
+  align-self: center;
+  max-width: 400px;
+  text-align: center;
+  align-self: center;
+  margin: 0 auto;
+}
+
+.write-review-form {
+  box-sizing: border-box;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: hsl(0, 0%, 100%);
+  border: 4px solid hsl(0, 0%, 90%);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  text-align: center;
+  align-self: center;
+  max-width: 800px;
+  text-align: center;
+  align-self: center;
+  margin: 0 auto;
+}
+
+.logout-text{
+  font-size: 12px;
+}
+
+.review-input {
+  size: 25;
+}

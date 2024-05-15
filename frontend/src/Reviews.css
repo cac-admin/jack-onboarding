@@ -3,3 +3,8 @@
     margin: auto;
     border: 3px solid #73AD21;
 }
+
+.br {
+    display: block;
+    margin: 10px 0;
+ }
