@@ -47,6 +47,7 @@ export default class WriteReview extends React.Component{
                 <div className='topnav'>
                     <a class="active" href="#writereview">Write a Review</a>
                     <a href="/reviews">Read Reviews</a>
+                    <a href="/profile">Profile</a>
                     <a href="/login">Login/Signup</a>
                     <a href="/">Home</a>
                 </div>
@@ -60,8 +61,8 @@ export default class WriteReview extends React.Component{
                     {(this.state.allCourses.map(reviewCourse => (<option key={reviewCourse.CourseID} onClick={() => this.setState({ reviewCourse : reviewCourse.CourseCode })}>{reviewCourse.CourseCode}</option>)))}
                 </select>
                 <br/><br/>
-                Description:
-                <input type="text" name="desc" className='review-input' value={this.state.reviewContent} onChange={e => this.setState({reviewContent : e.target.value})} size="100"/> <br/><br/>
+                Type review here:<br/>
+                <textarea className="desc-box" type="text" name="desc" value={this.state.reviewContent} onChange={e => this.setState({reviewContent : e.target.value})} size="100"/> <br/><br/>
                 In terms of difficulty, I give this course a
                 <input type="number" value={this.state.reviewDiff} onChange={x => this.setState({reviewDiff : x.target.value})} name="diff" maxLength="1" size="2" min="1" max="5"></input> /5.<br/>
                 Overall, I give this course a

@@ -4,6 +4,8 @@ import Home from './Home';
 import Reviews from './Reviews';
 import Login from './Login';
 import WriteReview from './WriteReview';
+import Admin from './adminpanel';
+import Profile from './Profile';
 import './index.css';
 
 //import App from './App';
@@ -21,6 +23,8 @@ export default function App(){
           <Route path='/reviews' element={<Reviews/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/writereview' element={<WriteReview/>}/>
+          <Route path="/adminpanel" element={<Admin/>}/>
+          <Route path ="/profile" element={<Profile/>}/>
         </Routes>
       </BrowserRouter>
   )

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import './styles.css'
+import ReCAPTCHA from "react-google-recaptcha";
 
 var loginSuccess = false;
 var signUpSuccess = true;
@@ -9,6 +10,7 @@ var signUpSuccess = true;
 export default function Login() {
     const [initUsername, setUsername] = useState('');
     const [initPassword, setPassword] = useState('');
+    var [captchaCheck, setCaptcha] = useState(false);
 
     const  clickLogin = (e) => {
         e.preventDefault()
@@ -21,6 +23,9 @@ export default function Login() {
         }
         else if (initPassword.length === 0){
             alert("Please input a valid password");
+        }
+        else if (!captchaCheck){
+            alert("Please complete the captcha")
         }
         else {
             axios.get('http://localhost:8000/api/users/')
@@ -52,6 +57,9 @@ export default function Login() {
         else if (initPassword.length === 0){
             alert("Please input a valid password");
         }
+        else if (!captchaCheck){
+            alert("Please complete the captcha")
+        }
         else{
             axios.get('http://localhost:8000/api/users/')
             .then(res => {
@@ -72,18 +80,24 @@ export default function Login() {
         })
     }}
 
-    const  clickLogout = (e) => {
+    const clickLogout = (e) => {
         e.preventDefault()
         loginSuccess = false;
         localStorage.clear();
         console.log("Logged out");
         alert("Logged out");
     }
+
+    const captchaChange = () => {
+        setCaptcha(true);
+    }
+
     return(
         <div classname="wrapper-main"> 
             <div className='topnav'>
                 <a href="/writereview">Write a Review</a>
                 <a href="/reviews">Read Reviews</a>
+                <a href="/profile">Profile</a>
                 <a class="active" href="#login">Login/Signup</a>
                 <a href="/">Home</a>
             </div>
@@ -102,7 +116,12 @@ export default function Login() {
                 <Button variant="contained" onClick={clickLogin}>Login</Button> <br/>
                 <Button variant="contained" onClick={clickSignup}>Sign Up</Button> <br/>
                 <p className='logout-text'>Already logged in? Click <input type='submit' value="here" onClick={clickLogout}/> to logout</p>
+                <ReCAPTCHA align="center" sitekey="6Lfijd0pAAAAAKQF-TCLDyYVYhZ8OvxeqnWb96y6" onChange={captchaChange}/>
             </form>
         </div>
     )
 }
+
+// secret key: 6Lfijd0pAAAAAIJhEmA3_BBaccebVWjS_Bq4de4E
+
+// look into auth0 on thursday?

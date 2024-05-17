@@ -85,11 +85,9 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  text-align: center;
-  align-self: center;
   max-width: 800px;
-  text-align: center;
   align-self: center;
+  text-align: center;
   margin: 0 auto;
 }
 
@@ -99,4 +97,36 @@
 
 .review-input {
   size: 25;
+}
+
+.desc-box {
+  resize: None;
+  width: 600px;
+  height: 150px;
+}
+
+.container {
+  align-self: center;
+  padding: 20px 40px 40px;
+  max-width: 2000px;
+  margin: auto;
+}
+
+#container-left {
+  width: 700px;
+  float: left;
+  margin-right: 20px;
+}
+
+
+#container-right {
+  font-size: large;
+  padding-left: 100px;
+  padding-top: 100px;
+}
+
+.oxy-search-form input[type=submit] {
+  background: './mag-glass.png' no-repeat center;
+  background-size: 64px;
+  text-indent: -9999em;
 }
